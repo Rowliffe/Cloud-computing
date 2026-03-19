@@ -11,33 +11,33 @@
 ### 1.1 — Ce que vous voyez sans wallet
 
 **Les résultats du vote s'affichent-ils avant que vous ayez connecté MetaMask ?**
-✅ Oui
+Oui
 
 **Si oui : comment est-ce possible ? Quelle propriété de la blockchain explique cela ?**
-Oui, c'est possible car la blockchain Ethereum est **publique et transparente par nature**. Les données stockées dans le smart contract (nombre de votes par candidat) sont accessibles en lecture sans aucune authentification. Le frontend effectue des appels en lecture seule (`eth_call`) via un nœud RPC public (comme Infura ou Alchemy) qui interroge l'état du contrat directement sur la blockchain Sepolia, sans nécessiter de wallet connecté.
+Oui, c'est possible car la blockchain Ethereum est publique et transparente par nature. Les données stockées dans le smart contract (nombre de votes par candidat) sont accessibles en lecture sans aucune authentification. De plus on interroge l'état du contrat directement sur la blockchain Sepolia, sans nécessiter de wallet connecté.
 
 **Éléments identifiés dans l'interface :**
 
 | ÉLÉMENT | PRÉSENT ? | LOCALISATION DANS L'INTERFACE |
 |---|---|---|
-| Adresse du contrat déployé | ✅ Oui | En bas de page / section "À propos" ou header |
+| Adresse du contrat déployé | ✅ Oui | En bas de page  |
 | Lien vers Etherscan | ✅ Oui | À côté de l'adresse du contrat |
 | Nombre de votes par candidat | ✅ Oui | Section centrale — résultats du vote en temps réel |
 | Historique des transactions | ✅ Oui | Blockchain Explorer intégré à l'application |
-| Explication du fonctionnement | ✅ Oui | Section informative / documentation intégrée |
+| Explication du fonctionnement | ✅ Oui | documentation intégrée |
 
 ---
 
 ### 1.2 — Connexion MetaMask
 
 **Quelle information nouvelle s'affiche après connexion ?**
-Après connexion, l'interface affiche l'**adresse du wallet connecté** (ex: `0xAbc...`), le **solde en ETH Sepolia**, ainsi que le **bouton de vote** qui devient actif. L'interface sait désormais quel compte effectuera la transaction.
+Après connexion, l'interface affiche l'**adresse du wallet connecté** ( `0xA1CDb743fFB56Fc6CBe8113947815f791A14D815`), le solde en ETH Sepolia, ainsi que le bouton de vote qui devient actif. L'interface sait désormais quel compte effectuera la transaction.
 
 **MetaMask a-t-il demandé un mot de passe ou un login ?**
-❌ Non (uniquement une confirmation de connexion via la popup MetaMask)
+ Non (uniquement une confirmation de connexion via la popup MetaMask)
 
 **Qu'est-ce que cela vous dit sur le modèle d'authentification Web3 par rapport au Web2 ?**
-En Web3, l'authentification repose sur la **cryptographie asymétrique** : l'identité est prouvée par la possession d'une clé privée, sans aucun serveur d'authentification centralisé, sans login ni mot de passe transmis. En Web2, un serveur tiers valide vos credentials (OAuth, sessions, tokens). Ici, le wallet **est** l'identité — c'est un modèle dit "self-sovereign" (souveraineté numérique).
+En Web3, l'authentification repose sur la cryptographie asymétrique : l'identité est prouvée par la possession d'une clé privée sans login ni mot de passe transmis. En Web2, un serveur tiers valide vos credentials (OAuth, sessions ou encore  tokens). Ici, le wallet est l'identité c'est ce qui nous permet de nous reconnaitre.
 
 ---
 
@@ -46,30 +46,30 @@ En Web3, l'authentification repose sur la **cryptographie asymétrique** : l'ide
 ### 2.1 — Envoyer un vote
 
 **Quelle adresse de contrat est indiquée dans la popup MetaMask ?**
-`0x291Ac3C6a92dF373dEa40fee62Ad39831B8A1DDC`
+`0xA1CDb743fFB56Fc6CBe8113947815f791A14D815`
 
 **Quel est le coût en gas estimé affiché ?**
-Environ **~50 000 à 80 000 gas units**, soit approximativement **0.001 ETH Sepolia** (variable selon la congestion du réseau au moment du vote).
+Environ 1.500000013 Gwei, soit approximativement (0.000000001500000013 ETH).
 
 **Pourquoi votre vote coûte-t-il du gas ? Reliez à ce que vous avez vu en cours sur l'EVM.**
-Voter déclenche une **transaction on-chain** qui modifie l'état du smart contract (incrémentation du compteur de votes, mise à jour du timestamp du dernier vote). L'**EVM (Ethereum Virtual Machine)** exécute chaque opcode (SSTORE pour écrire en storage, EMIT pour l'event, etc.) et chaque opcode a un coût en gas. Ce mécanisme rémunère les validateurs qui incluent la transaction dans un bloc et protège le réseau contre le spam. Une simple lecture (`eth_call`) ne coûte rien — seule l'écriture sur la blockchain est payante.
+Le fait de voter déclenche une*transaction on-chain qui modifie l'état du smart contract. L'EVM exécute chaque opcode et chaque opcode a un coût en gas. Ce mécanisme rémunère les validateurs qui incluent la transaction dans un bloc et protège le réseau contre le spam. 
 
 ---
 
 ### 2.2 — Analyser la transaction confirmée
 
 **Hash de votre transaction :**
-`0x________________________________________________________________`
-*(à compléter avec votre hash réel lors de l'exercice)*
+`0x1baea39336507586b6214c227a4958ef080aa90ee6038f3edb710d318b797aeb`
 
 | DONNÉE | VALEUR |
 |---|---|
-| Numéro du bloc | ~xxxxxx (ex: 8 200 000+) |
+| Numéro du bloc | 10462917 |
 | Timestamp du bloc | ~12 secondes après confirmation |
-| Gas utilisé (gasUsed) | ~55 000 – 70 000 gas |
-| Gas limit fixé | ~80 000 – 100 000 gas |
+| Gas utilisé (gasUsed) | 
+1.500000013 Gwei |
+| Gas limit fixé | 53,955  |
 | Statut | ✅ Success |
-| Fonction appelée | `vote(uint256 candidateId)` |
+| Fonction appelée | `vote(uint256 candidateId)`  0x0121b93f |
 
 **Qu'est-ce que `gasUsed` représente concrètement ? Pourquoi est-il inférieur au `gasLimit` ?**
 Le `gasUsed` représente la **quantité exacte de gas réellement consommée** par l'EVM pour exécuter toutes les instructions du smart contract (opcodes). Le `gasLimit` est le **maximum que l'utilisateur autorise** à dépenser — c'est une limite de sécurité pour éviter de vider son wallet en cas de boucle infinie ou d'erreur. Si la transaction consomme moins que le limit, **le gas non utilisé est remboursé**. Si le gas s'épuise avant la fin de l'exécution, la transaction échoue avec une erreur `out of gas` (mais le gas consommé jusqu'à ce point est quand même débité).
