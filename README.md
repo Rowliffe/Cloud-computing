@@ -65,8 +65,7 @@ Le fait de voter déclenche une*transaction on-chain qui modifie l'état du smar
 |---|---|
 | Numéro du bloc | 10462917 |
 | Timestamp du bloc | ~12 secondes après confirmation |
-| Gas utilisé (gasUsed) | 
-1.500000013 Gwei |
+| Gas utilisé (gasUsed) | 1.500000013 Gwei |
 | Gas limit fixé | 53,955  |
 | Statut | ✅ Success |
 | Fonction appelée | `vote(uint256 candidateId)`  0x0121b93f |
