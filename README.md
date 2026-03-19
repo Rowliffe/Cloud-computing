@@ -28,7 +28,7 @@ Oui, c'est possible car la blockchain Ethereum est publique et transparente par 
 
 ---
 
-### 1.2 — Connexion MetaMask
+### 1.2 — Connexion MetaMaskttttt
 
 **Quelle information nouvelle s'affiche après connexion ?**
 Après connexion, l'interface affiche l'**adresse du wallet connecté** ( `0xA1CDb743fFB56Fc6CBe8113947815f791A14D815`), le solde en ETH Sepolia, ainsi que le bouton de vote qui devient actif. L'interface sait désormais quel compte effectuera la transaction.
